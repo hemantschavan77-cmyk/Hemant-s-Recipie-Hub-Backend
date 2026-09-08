@@ -1,7 +1,6 @@
 package com.recipehub.backend.service;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.recipehub.backend.model.Recipe;
@@ -10,8 +9,12 @@ import com.recipehub.backend.repository.RecipeRepository;
 @Service
 public class RecipeService {
 
-	@Autowired
-	private RecipeRepository recipeRepository;
+	private final RecipeRepository recipeRepository;
+	
+	public RecipeService(RecipeRepository recipeRepository)
+	{
+		this.recipeRepository = recipeRepository;
+	}
 	
 	public List<Recipe> getAllRecipes()
 	{

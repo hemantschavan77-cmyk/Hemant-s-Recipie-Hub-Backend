@@ -1,7 +1,6 @@
 package com.recipehub.backend.controller;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,9 +22,12 @@ import com.recipehub.backend.service.RecipeService;
 @CrossOrigin(origins = "http://localhost:3000")
 public class RecipeController {
 
-   @Autowired
-   private RecipeService recipeService;
-	
+   private final RecipeService recipeService;
+   public RecipeController(RecipeService recipeService)
+   {
+	this.recipeService = recipeService;   
+   }
+   
 	@GetMapping
 	public List<Recipe> getAllRecipes()
 	{
