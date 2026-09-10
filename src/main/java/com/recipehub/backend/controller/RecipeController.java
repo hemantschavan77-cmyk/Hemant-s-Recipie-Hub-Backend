@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.recipehub.backend.exception.ErrorResponse;
 import com.recipehub.backend.model.Recipe;
 import com.recipehub.backend.service.RecipeService;
 
@@ -42,43 +41,23 @@ public class RecipeController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getRecipeById(@PathVariable Long id)
+	public Recipe getRecipeById(@PathVariable Long id)
 	{
-		Recipe recipe = recipeService.getRecipeById(id);
+		return recipeService.getRecipeById(id);
 		
-		if(recipe == null)
-		{
-			ErrorResponse error = new ErrorResponse("Recipe with Id " + id +" is not found ");
-			return ResponseEntity.status(404).body(error);
-			
-		}
-		return ResponseEntity.ok(recipe);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteRecipeById(@PathVariable long id)
+	public ResponseEntity<String> deleteRecipeById(@PathVariable long id)
 	{
-		boolean deleted = recipeService.deleteRecipeById(id);
-		
-		if(!deleted)
-		{
-			ErrorResponse error = new ErrorResponse("Recipe with "+ id+" is not found");
-			return ResponseEntity.status(404).body(error);
-		}
-		return ResponseEntity.ok().body("Recipe Deleted successfully");
+		recipeService.deleteRecipeById(id);
+		return ResponseEntity.ok("Recipe Deleted successfully");
 	}
 	
 	@PatchMapping("/{id}/like")
-	public ResponseEntity<?> likeRecipe(@PathVariable Long id)
+	public Recipe likeRecipe(@PathVariable Long id)
 	{
-		Recipe updatedRecipe = recipeService.incrementLikes(id);
-		if(updatedRecipe == null)
-		{
-			ErrorResponse error = new ErrorResponse("Recipe with id "+ id +"is not found");
-			return ResponseEntity.status(404).body(error);
-		}
-		
-		return ResponseEntity.ok(updatedRecipe);
+		return recipeService.incrementLikes(id);
 	}
 	
 	@GetMapping("/search")

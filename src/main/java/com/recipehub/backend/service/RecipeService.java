@@ -3,6 +3,7 @@ package com.recipehub.backend.service;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
+import com.recipehub.backend.exception.RecipeNotFoundException;
 import com.recipehub.backend.model.Recipe;
 import com.recipehub.backend.repository.RecipeRepository;
 
@@ -28,27 +29,21 @@ public class RecipeService {
 	}
 	
 	public Recipe getRecipeById(long id) {
-	    return recipeRepository.findById(id).orElse(null);
+	    return recipeRepository.findById(id).orElseThrow(()->new RecipeNotFoundException(id));
 	}
 	
-	public boolean deleteRecipeById(Long id)
+	public void deleteRecipeById(Long id)
 	{
-		if(recipeRepository.existsById(id))
+		if(!recipeRepository.existsById(id))
 		{
-			recipeRepository.deleteById(id);
-			return true;
+			throw new RecipeNotFoundException(id);
 		}
-		return false;
+		recipeRepository.deleteById(id);
 	}
 	
 	public Recipe incrementLikes(Long id)
 	{
-		Recipe recipe = recipeRepository.findById(id).orElse(null);
-		
-		if(recipe == null)
-		{
-			return null;
-		}
+		Recipe recipe = recipeRepository.findById(id).orElseThrow(()-> new RecipeNotFoundException(id));
 		
 		recipe.setLikes(recipe.getLikes() + 1);
 		return recipeRepository.save(recipe);
