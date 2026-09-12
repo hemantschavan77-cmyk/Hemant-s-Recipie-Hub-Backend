@@ -36,7 +36,6 @@ public class RecipeController {
 	@PostMapping
 	public Recipe saveRecipe(@RequestBody Recipe recipe)
 	{
-		recipe.setLikes(0);
 		return recipeService.saveRecipe(recipe);
 	}
 	
