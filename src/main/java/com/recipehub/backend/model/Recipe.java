@@ -1,5 +1,6 @@
 package com.recipehub.backend.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -39,10 +40,16 @@ public class Recipe {
 	
 	private int likes;
 	
+	private LocalDateTime createdAt;
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
+	public Recipe() {
+		super();
+	}
+	
 	public User getUser() {
 		return user;
 	}
@@ -50,9 +57,13 @@ public class Recipe {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
 
-	public Recipe() {
-		super();
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public long getId() {

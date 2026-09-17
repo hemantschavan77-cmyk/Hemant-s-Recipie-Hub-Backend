@@ -1,5 +1,6 @@
 package com.recipehub.backend.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class RecipeService {
 	public Recipe saveRecipe(Recipe recipe)
 	{
 		recipe.setLikes(0);
+		recipe.setCreatedAt(LocalDateTime.now());
 		return recipeRepository.save(recipe);
 	}
 	
