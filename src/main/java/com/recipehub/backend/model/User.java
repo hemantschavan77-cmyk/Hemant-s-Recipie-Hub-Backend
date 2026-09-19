@@ -45,7 +45,7 @@ public class User {
 		return emailVerified;
 	}
 	
-	public void setEmailVarified(boolean emailVerified) {
+	public void setEmailVerified(boolean emailVerified) {
 		this.emailVerified = emailVerified;
 	}
 	
