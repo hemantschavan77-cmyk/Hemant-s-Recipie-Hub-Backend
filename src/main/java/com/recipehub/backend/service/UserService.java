@@ -15,10 +15,12 @@ public class UserService {
 	
 	private final PasswordEncoder passwordEncoder;	
 	
-	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder)
+	private final EmailVerificationService emailVerificationService;
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailVerificationService emailVerificationService)
 	{
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.emailVerificationService = emailVerificationService;
 	}
 	
 	public Optional<User> findByEmail(String email)
@@ -31,7 +33,8 @@ public class UserService {
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		user.setEmailVerified(false);
-		
-		return userRepository.save(user);
+		User savedUser = userRepository.save(user);
+		emailVerificationService.createToken(savedUser);
+		return savedUser;
 	}
 }
