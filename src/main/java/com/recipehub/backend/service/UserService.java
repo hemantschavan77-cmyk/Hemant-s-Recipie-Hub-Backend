@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.recipehub.backend.model.EmailVerificationToken;
 import com.recipehub.backend.model.User;
 import com.recipehub.backend.repository.UserRepository;
 
@@ -16,11 +17,17 @@ public class UserService {
 	private final PasswordEncoder passwordEncoder;	
 	
 	private final EmailVerificationService emailVerificationService;
-	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailVerificationService emailVerificationService)
+	
+	private final EmailService emailService;
+	public UserService(UserRepository userRepository
+						, PasswordEncoder passwordEncoder
+						, EmailVerificationService emailVerificationService
+						,EmailService emailService)
 	{
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.emailVerificationService = emailVerificationService;
+		this.emailService = emailService;
 	}
 	
 	public Optional<User> findByEmail(String email)
@@ -34,7 +41,8 @@ public class UserService {
 		user.setPassword(encodedPassword);
 		user.setEmailVerified(false);
 		User savedUser = userRepository.save(user);
-		emailVerificationService.createToken(savedUser);
+		EmailVerificationToken token = emailVerificationService.createToken(savedUser);
+		emailService.sendVerificationEmail(savedUser.getEmail(), token.getToken());
 		return savedUser;
 	}
 }
