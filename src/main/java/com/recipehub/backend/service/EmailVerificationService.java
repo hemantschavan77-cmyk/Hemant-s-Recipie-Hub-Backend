@@ -1,9 +1,12 @@
 package com.recipehub.backend.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import com.recipehub.backend.exception.InvalidTokenException;
 import com.recipehub.backend.model.EmailVerificationToken;
 import com.recipehub.backend.model.User;
 import com.recipehub.backend.repository.EmailVerificationTokenRepository;
@@ -28,5 +31,23 @@ public class EmailVerificationService {
 		);	
 		
 		return tokenRepository.save(verificationToken);
+	}
+	
+	@Transactional
+	public void verifyToken(String token)
+	{
+		EmailVerificationToken verificationToken = tokenRepository.findByToken(token)
+				.orElseThrow(() -> 
+				new InvalidTokenException("Invalid Verification Token")
+				);
+		
+		if(LocalDateTime.now().isAfter(verificationToken.getExpiresAt()))
+		{
+			throw new InvalidTokenException("Verification Token expired");
+		}
+		
+		User user = verificationToken.getUser();
+		user.setEmailVerified(true);
+		tokenRepository.delete(verificationToken);	
 	}
 }
