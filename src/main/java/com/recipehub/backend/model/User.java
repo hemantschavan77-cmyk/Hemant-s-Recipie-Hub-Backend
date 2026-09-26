@@ -15,10 +15,12 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
 	private String email;
 	
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
+	
 	private boolean emailVerified;
 	
 	public long getId() {
