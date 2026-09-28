@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.recipehub.backend.dto.AuthResponse;
+import com.recipehub.backend.dto.LoginRequest;
 import com.recipehub.backend.model.User;
 import com.recipehub.backend.service.EmailVerificationService;
 import com.recipehub.backend.service.UserService;
@@ -31,11 +33,18 @@ public class UserController {
 		return userService.registerUser(user);
 	}
 	
+	@PostMapping("/login")
+	public AuthResponse login(@RequestBody LoginRequest request)
+	{
+		return userService.login(request);
+	}
+	
 	@GetMapping("/verify")
 	public String verifyEmail(@RequestParam String token)
 	{
 		emailVerificationService.verifyToken(token);
 		return "Email Verified successfully !!!";
 	}
+	
 
 }
