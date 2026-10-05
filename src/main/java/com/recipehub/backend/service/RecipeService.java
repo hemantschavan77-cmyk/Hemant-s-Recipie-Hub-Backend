@@ -6,16 +6,26 @@ import org.springframework.stereotype.Service;
 
 import com.recipehub.backend.exception.RecipeNotFoundException;
 import com.recipehub.backend.model.Recipe;
+import com.recipehub.backend.model.User;
 import com.recipehub.backend.repository.RecipeRepository;
+import com.recipehub.backend.repository.UserRepository;
 
 @Service
 public class RecipeService {
-
+	
 	private final RecipeRepository recipeRepository;
 	
-	public RecipeService(RecipeRepository recipeRepository)
+	private final CurrentUserService currentUserService;
+	
+	private final UserRepository userRepository;
+	
+	public RecipeService(RecipeRepository recipeRepository,
+						 CurrentUserService currentUserService,
+						 UserRepository userRepository)
 	{
 		this.recipeRepository = recipeRepository;
+		this.currentUserService = currentUserService;
+		this.userRepository = userRepository; 
 	}
 	
 	public List<Recipe> getAllRecipes()
@@ -25,6 +35,12 @@ public class RecipeService {
 	
 	public Recipe saveRecipe(Recipe recipe)
 	{
+		long currentUserId = currentUserService.getCurrentUserId();
+		
+		User currentUser = userRepository.findById(currentUserId)
+				.orElseThrow(()-> new RuntimeException("User not found"));
+		
+		recipe.setUser(currentUser);
 		recipe.setLikes(0);
 		recipe.setCreatedAt(LocalDateTime.now());
 		return recipeRepository.save(recipe);
