@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.recipehub.backend.exception.RecipeNotFoundException;
+import com.recipehub.backend.exception.UnauthorizedActionException;
 import com.recipehub.backend.model.Recipe;
 import com.recipehub.backend.model.User;
 import com.recipehub.backend.repository.RecipeRepository;
@@ -52,11 +53,16 @@ public class RecipeService {
 	
 	public void deleteRecipeById(Long id)
 	{
-		if(!recipeRepository.existsById(id))
+		Recipe recipe = recipeRepository.findById(id).orElseThrow(()-> new RecipeNotFoundException(id));
+		long currentUserId = currentUserService.getCurrentUserId();
+		long recipeOwnerId = recipe.getUser().getId();
+		
+		if(currentUserId != recipeOwnerId)
 		{
-			throw new RecipeNotFoundException(id);
+			throw new UnauthorizedActionException("You are not allowed to delete this recipe");
 		}
-		recipeRepository.deleteById(id);
+		
+		recipeRepository.delete(recipe);
 	}
 	
 	public Recipe incrementLikes(Long id)
