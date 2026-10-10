@@ -8,4 +8,8 @@ import com.recipehub.backend.model.RecipeLike;
 
 public interface RecipeLikeRepository extends JpaRepository<RecipeLike , Long> {
 	Optional<RecipeLike> findByUserIdAndRecipeId(Long userId, Long recipeId);
+	
+	void deleteByUserIdAndRecipeId(Long userId, Long recipeId);
+	
+	long countByRecipeId(Long recipeId);
 }
