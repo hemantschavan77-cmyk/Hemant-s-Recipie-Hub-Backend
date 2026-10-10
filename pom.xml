@@ -99,6 +99,7 @@
 	</dependencies>
 
 	<build>
+	<finalName>recipehub</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
