@@ -54,7 +54,7 @@ public class RecipeController {
 	@PatchMapping("/{id}/like")
 	public Recipe likeRecipe(@PathVariable Long id)
 	{
-		return recipeService.incrementLikes(id);
+		return recipeService.toggleLikes(id);
 	}
 	
 	@GetMapping("/search")
