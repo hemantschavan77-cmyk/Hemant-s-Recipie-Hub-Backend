@@ -62,6 +62,13 @@ public class RecipeController {
 	{
 		return recipeService.searchByTitle(title);
 	}
+	
+	@PatchMapping("/{id}/save")
+	public ResponseEntity<Boolean> toggleSavedRecipe(@PathVariable Long id)
+	{
+		boolean isSaved = recipeService.toggleSavedRecipe(id);
+		return ResponseEntity.ok(isSaved);
+	}
 }
 
 

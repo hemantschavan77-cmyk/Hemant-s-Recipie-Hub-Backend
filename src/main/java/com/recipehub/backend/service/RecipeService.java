@@ -11,6 +11,7 @@ import com.recipehub.backend.exception.RecipeNotFoundException;
 import com.recipehub.backend.exception.UnauthorizedActionException;
 import com.recipehub.backend.model.Recipe;
 import com.recipehub.backend.model.RecipeLike;
+import com.recipehub.backend.model.RecipeSave;
 import com.recipehub.backend.model.User;
 import com.recipehub.backend.repository.RecipeLikeRepository;
 import com.recipehub.backend.repository.RecipeRepository;
@@ -116,6 +117,26 @@ public class RecipeService {
 	public List<Recipe> searchByTitle(String title)
 	{
 		return recipeRepository.findByTitleContainingIgnoreCase(title);
+	}
+	
+	@Transactional
+	public boolean toggleSavedRecipe(Long recipeId)
+	{
+		Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(()-> new RecipeNotFoundException(recipeId));
+		long currentUserId = currentUserService.getCurrentUserId();
+		Optional<RecipeSave> existingSave = recipeSaveRepository.findByUserIdAndRecipeId(currentUserId, recipeId);
+		if(existingSave.isPresent())
+		{
+			recipeSaveRepository.delete(existingSave.get());
+			return false;
+		}
+		
+		User user = userRepository.findById(currentUserId).orElseThrow(()-> new RuntimeException("User not found!!"));
+		RecipeSave recipeSave = new RecipeSave();
+		recipeSave.setUser(user);
+		recipeSave.setRecipe(recipe);
+		recipeSaveRepository.save(recipeSave);
+		return true;
 	}
 
 }

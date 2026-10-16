@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.recipehub.backend.model.RecipeSave;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface RecipeSaveRepository extends JpaRepository<RecipeSave, Long> {
@@ -13,5 +14,7 @@ public interface RecipeSaveRepository extends JpaRepository<RecipeSave, Long> {
 	void deleteByUserIdAndRecipeId(Long userId, Long recipeId);
 	
 	List<RecipeSave> findByUserId(Long userId);
+	
+	Optional<RecipeSave> findByUserIdAndRecipeId(Long userId, Long recipeId);
 	
 }
