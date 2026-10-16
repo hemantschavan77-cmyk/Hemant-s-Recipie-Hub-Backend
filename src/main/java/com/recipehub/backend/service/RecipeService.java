@@ -14,6 +14,7 @@ import com.recipehub.backend.model.RecipeLike;
 import com.recipehub.backend.model.User;
 import com.recipehub.backend.repository.RecipeLikeRepository;
 import com.recipehub.backend.repository.RecipeRepository;
+import com.recipehub.backend.repository.RecipeSaveRepository;
 import com.recipehub.backend.repository.UserRepository;
 
 @Service
@@ -27,15 +28,20 @@ public class RecipeService {
 	
 	private final RecipeLikeRepository recipeLikeRepository;
 	
+	private final RecipeSaveRepository recipeSaveRepository;
+	
 	public RecipeService(RecipeRepository recipeRepository,
 						 CurrentUserService currentUserService,
 						 UserRepository userRepository,
-						 RecipeLikeRepository recipeLikeRepository)
+						 RecipeLikeRepository recipeLikeRepository,
+						 RecipeSaveRepository recipeSaveRepository
+						)
 	{
 		this.recipeRepository = recipeRepository;
 		this.currentUserService = currentUserService;
 		this.userRepository = userRepository; 
 		this.recipeLikeRepository = recipeLikeRepository;
+		this.recipeSaveRepository = recipeSaveRepository;
 	}
 	
 	public List<Recipe> getAllRecipes()
@@ -43,7 +49,7 @@ public class RecipeService {
 		return recipeRepository.findAll();
 	}
 	
-	public Recipe saveRecipe(Recipe recipe)
+	public Recipe addRecipe(Recipe recipe)
 	{
 		long currentUserId = currentUserService.getCurrentUserId();
 		

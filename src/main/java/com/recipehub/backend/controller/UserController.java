@@ -46,5 +46,4 @@ public class UserController {
 		return "Email Verified successfully !!!";
 	}
 	
-
 }

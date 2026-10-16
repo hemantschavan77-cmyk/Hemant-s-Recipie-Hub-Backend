@@ -32,9 +32,9 @@ public class RecipeController {
 	}
 	
 	@PostMapping
-	public Recipe saveRecipe(@RequestBody Recipe recipe)
+	public Recipe addRecipe(@RequestBody Recipe recipe)
 	{
-		return recipeService.saveRecipe(recipe);
+		return recipeService.addRecipe(recipe);
 	}
 	
 	@GetMapping("/{id}")
