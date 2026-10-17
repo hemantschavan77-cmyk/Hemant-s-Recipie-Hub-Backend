@@ -21,6 +21,7 @@ public class SecurityConfig {
 		http
 			.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(auth -> auth
+					.requestMatchers(HttpMethod.GET,"/api/recipes/saved").authenticated()
 					.requestMatchers(HttpMethod.GET, "/api/recipes", "/api/recipes/**").permitAll()
 					
 					.requestMatchers(

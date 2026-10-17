@@ -69,6 +69,12 @@ public class RecipeController {
 		boolean isSaved = recipeService.toggleSavedRecipe(id);
 		return ResponseEntity.ok(isSaved);
 	}
+	
+	@GetMapping("/saved")
+	public List<Recipe> getSavedRecipes()
+	{
+		return recipeService.getSavedRecipes();
+	}
 }
 
 
