@@ -1,6 +1,7 @@
 package com.recipehub.backend.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -138,7 +139,21 @@ public class RecipeService {
 		recipeSaveRepository.save(recipeSave);
 		return true;
 	}
-
+	
+	public List<Recipe> getSavedRecipes()
+	{
+		long currentUserId = currentUserService.getCurrentUserId();
+		List<RecipeSave> savedRecipes = recipeSaveRepository.findByUserIdOrderByIdDesc(currentUserId);
+		List<Recipe> recipes = new ArrayList<>();
+		for(RecipeSave savedRecipe : savedRecipes)
+		{
+			Recipe recipe = savedRecipe.getRecipe();
+			recipes.add(recipe);
+			
+		}
+		
+		return recipes;
+	}
 }
 
 
