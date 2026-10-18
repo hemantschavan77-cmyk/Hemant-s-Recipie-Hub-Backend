@@ -39,6 +39,12 @@ public class RecipeController {
 		return recipeService.getPopularRecipes(page, size);
 	}
 	
+	@GetMapping("/my-recipes")
+	public List<Recipe> getMyRecipes()
+	{
+		return recipeService.getMyRecipes();
+	}
+	
 	@PostMapping
 	public Recipe addRecipe(@RequestBody Recipe recipe)
 	{
@@ -66,9 +72,9 @@ public class RecipeController {
 	}
 	
 	@GetMapping("/search")
-	public List<Recipe> searchRecipe(@RequestParam String title)
+	public Page<Recipe> searchRecipe(@RequestParam String title, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "12") int size)
 	{
-		return recipeService.searchByTitle(title);
+		return recipeService.searchByTitle(title , page, size);
 	}
 	
 	@PatchMapping("/{id}/save")

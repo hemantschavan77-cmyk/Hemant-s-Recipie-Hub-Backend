@@ -61,6 +61,12 @@ public class RecipeService {
 		return recipeRepository.findAllByOrderByLikesDesc(pageable);
 	}
 	
+	public List<Recipe> getMyRecipes()
+	{
+		long currentUserId = currentUserService.getCurrentUserId();
+		return recipeRepository.findByUserIdOrderByCreatedAtDesc(currentUserId);
+	}
+	
 	public Recipe addRecipe(Recipe recipe)
 	{
 		long currentUserId = currentUserService.getCurrentUserId();
@@ -125,9 +131,10 @@ public class RecipeService {
 		
 	}
 	
-	public List<Recipe> searchByTitle(String title)
+	public Page<Recipe> searchByTitle(String title, int page, int size)
 	{
-		return recipeRepository.findByTitleContainingIgnoreCase(title);
+		Pageable pageable = PageRequest.of(page, size);
+		return recipeRepository.findByTitleContainingIgnoreCase(title, pageable);
 	}
 	
 	@Transactional
