@@ -1,6 +1,8 @@
 package com.recipehub.backend.controller;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +28,9 @@ public class RecipeController {
    }
    
 	@GetMapping
-	public List<Recipe> getAllRecipes()
+	public Page<Recipe> getAllRecipes(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "12")int size)
 	{
-		return recipeService.getAllRecipes();
+		return recipeService.getAllRecipes(page,size);
 	}
 	
 	@PostMapping

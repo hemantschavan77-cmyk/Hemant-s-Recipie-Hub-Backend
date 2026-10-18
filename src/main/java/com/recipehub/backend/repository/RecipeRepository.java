@@ -12,5 +12,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	List<Recipe> findByTitleContainingIgnoreCase(String title);
 	
 	Page<Recipe> findAllByOrderByCreatedAtDesc(Pageable pageable);
+	
+	
 }
 	
