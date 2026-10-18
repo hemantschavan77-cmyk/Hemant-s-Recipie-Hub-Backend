@@ -33,6 +33,12 @@ public class RecipeController {
 		return recipeService.getAllRecipes(page,size);
 	}
 	
+	@GetMapping("/popular")
+	public Page<Recipe> getPopularRecipes(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "12")int size)
+	{
+		return recipeService.getPopularRecipes(page, size);
+	}
+	
 	@PostMapping
 	public Recipe addRecipe(@RequestBody Recipe recipe)
 	{

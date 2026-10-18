@@ -13,6 +13,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	
 	Page<Recipe> findAllByOrderByCreatedAtDesc(Pageable pageable);
 	
-	
+	Page<Recipe> findAllByOrderByLikesDesc(Pageable pageable);
 }
 	

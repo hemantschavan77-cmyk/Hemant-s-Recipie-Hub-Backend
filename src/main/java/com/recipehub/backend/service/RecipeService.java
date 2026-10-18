@@ -55,6 +55,12 @@ public class RecipeService {
 		return recipeRepository.findAllByOrderByCreatedAtDesc(pageable);
 	}
 	
+	public Page<Recipe> getPopularRecipes(int page, int size)
+	{
+		Pageable pageable = PageRequest.of(page, size);
+		return recipeRepository.findAllByOrderByLikesDesc(pageable);
+	}
+	
 	public Recipe addRecipe(Recipe recipe)
 	{
 		long currentUserId = currentUserService.getCurrentUserId();
