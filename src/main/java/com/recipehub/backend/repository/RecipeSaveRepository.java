@@ -17,4 +17,6 @@ public interface RecipeSaveRepository extends JpaRepository<RecipeSave, Long> {
 	
 	Optional<RecipeSave> findByUserIdAndRecipeId(Long userId, Long recipeId);
 	
+	void deleteByRecipeId(Long recipeId);
+	
 }

@@ -12,4 +12,6 @@ public interface RecipeLikeRepository extends JpaRepository<RecipeLike , Long> {
 	void deleteByUserIdAndRecipeId(Long userId, Long recipeId);
 	
 	long countByRecipeId(Long recipeId);
+	
+	void deleteByRecipeId(Long recipeId);
 }

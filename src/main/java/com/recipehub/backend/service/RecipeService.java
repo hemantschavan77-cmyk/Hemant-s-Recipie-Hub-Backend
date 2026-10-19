@@ -85,6 +85,7 @@ public class RecipeService {
 	    return recipeRepository.findById(id).orElseThrow(()->new RecipeNotFoundException(id));
 	}
 	
+	@Transactional
 	public void deleteRecipeById(Long id)
 	{
 		Recipe recipe = recipeRepository.findById(id).orElseThrow(()-> new RecipeNotFoundException(id));
@@ -95,6 +96,9 @@ public class RecipeService {
 		{
 			throw new UnauthorizedActionException("You are not allowed to delete this recipe");
 		}
+		
+		recipeLikeRepository.deleteByRecipeId(id);
+		recipeSaveRepository.deleteByRecipeId(id);
 		
 		recipeRepository.delete(recipe);
 	}
