@@ -77,6 +77,7 @@ public class RecipeService {
 		recipe.setUser(currentUser);
 		recipe.setLikes(0);
 		recipe.setCreatedAt(LocalDateTime.now());
+		recipe.setId(0);
 		return recipeRepository.save(recipe);
 	}
 	
