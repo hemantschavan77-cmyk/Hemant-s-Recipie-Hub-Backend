@@ -48,6 +48,7 @@ public class UserService {
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		user.setEmailVerified(false);
+		user.setId(0);
 		User savedUser = userRepository.save(user);
 		EmailVerificationToken token = emailVerificationService.createToken(savedUser);
 		emailService.sendVerificationEmail(savedUser.getEmail(), token.getToken());
