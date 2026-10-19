@@ -28,4 +28,12 @@ public class GlobalExceptionHandler {
 		ErrorResponse error = new ErrorResponse(ex.getMessage());
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
 	}
+	
+	
+	@ExceptionHandler(UnauthorizedActionException.class)
+	public ResponseEntity<ErrorResponse> handleUnauthorizedAction(UnauthorizedActionException  ex)
+	{
+		ErrorResponse error = new ErrorResponse(ex.getMessage());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+	}
 }
