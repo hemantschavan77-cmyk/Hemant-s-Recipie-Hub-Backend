@@ -27,16 +27,31 @@ public class RecipeController {
 	this.recipeService = recipeService;   
    }
    
+   private static final int MAX_PAGE_SIZE = 50;
+
+   private int validatePageSize(int size) {
+       if (size < 1) {
+           return 12;
+       }
+
+       return Math.min(size, MAX_PAGE_SIZE);
+   }
+   
+   private int validatePage(int page) {
+	    return Math.max(page, 0);
+	}
+   
+   
 	@GetMapping
 	public Page<Recipe> getAllRecipes(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "12")int size)
 	{
-		return recipeService.getAllRecipes(page,size);
+		return recipeService.getAllRecipes(validatePage(page),validatePageSize(size));
 	}
 	
 	@GetMapping("/popular")
 	public Page<Recipe> getPopularRecipes(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "12")int size)
 	{
-		return recipeService.getPopularRecipes(page, size);
+		return recipeService.getPopularRecipes(validatePage(page), validatePageSize(size));
 	}
 	
 	@GetMapping("/my-recipes")
@@ -74,7 +89,7 @@ public class RecipeController {
 	@GetMapping("/search")
 	public Page<Recipe> searchRecipe(@RequestParam String title, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "12") int size)
 	{
-		return recipeService.searchByTitle(title , page, size);
+		return recipeService.searchByTitle(title , validatePage(page), validatePageSize(size));
 	}
 	
 	@PatchMapping("/{id}/save")
