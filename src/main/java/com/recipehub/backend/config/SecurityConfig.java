@@ -19,6 +19,7 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception{
 		
 		http
+			.cors(cors -> {})
 			.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(auth -> auth
 					.requestMatchers(HttpMethod.GET,"/api/recipes/saved", "/api/recipes/my-recipes").authenticated()
