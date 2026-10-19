@@ -36,4 +36,11 @@ public class GlobalExceptionHandler {
 		ErrorResponse error = new ErrorResponse(ex.getMessage());
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
 	}
+	
+	@ExceptionHandler(EmailAlreadyRegisteredException.class)
+	public ResponseEntity<ErrorResponse> handleEmailAlreadyRegistered(EmailAlreadyRegisteredException ex)
+	{
+		ErrorResponse error = new ErrorResponse(ex.getMessage());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
 }

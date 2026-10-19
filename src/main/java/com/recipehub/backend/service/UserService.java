@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.recipehub.backend.dto.AuthResponse;
 import com.recipehub.backend.dto.LoginRequest;
+import com.recipehub.backend.exception.EmailAlreadyRegisteredException;
 import com.recipehub.backend.exception.InvalidCredentialsException;
 import com.recipehub.backend.model.EmailVerificationToken;
 import com.recipehub.backend.model.User;
@@ -45,6 +46,9 @@ public class UserService {
 	
 	public User registerUser(User user)
 	{
+		 if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+		        throw new EmailAlreadyRegisteredException("Email is already registered");
+		    }
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		user.setEmailVerified(false);
