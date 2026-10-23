@@ -176,6 +176,12 @@ public class RecipeService {
 		
 		return recipes;
 	}
+	
+	public Page<Recipe> getRecipesByCategory(String category, int page, int size)
+	{
+		Pageable pageable = PageRequest.of(page, size);
+		return recipeRepository.findByCategoryIgnoreCase(category, pageable);
+	}
 }
 
 
